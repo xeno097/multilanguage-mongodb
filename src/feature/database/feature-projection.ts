@@ -5,7 +5,13 @@ export const getFeatureProjection = (
 ) => {
   return {
     id: 1,
-    name: `$name_translations.${language}`,
+    name: {
+      $cond: {
+        if: `$name_translations.${language}`,
+        then: '$name_translations.es',
+        else: '$name_translations.en',
+      },
+    },
     slug: 1,
   };
 };

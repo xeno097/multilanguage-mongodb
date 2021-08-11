@@ -1,4 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { GetRequestLanguage } from 'src/common/decorators/get-request-language.decorator';
+import { LanguageCode } from 'src/common/enum/language-code.enum';
 import { InputField } from 'src/common/graphql/enums/input-field.enum';
 import { getEntityByIdArgOptions } from 'src/common/graphql/options/get-entity-by-id.options';
 import { FeatureService } from './feature.service';
@@ -12,9 +14,11 @@ export class FeatureResolver {
 
   @Query(() => Feature)
   public async getFeatureById(
-    @Args(InputField.ID, getEntityByIdArgOptions) id: string,
+    @GetRequestLanguage() language: LanguageCode,
+    @Args(InputField.ID, getEntityByIdArgOptions)
+    id: string,
   ) {
-    return this.featureService.getEntityById({ id });
+    return this.featureService.getEntityById({ id }, { language });
   }
 
   @Mutation(() => Feature)
@@ -25,21 +29,23 @@ export class FeatureResolver {
   }
 
   @Query(() => [Feature])
-  public async getAllFeatures() {
-    return this.featureService.getAllEntities();
+  public async getAllFeatures(@GetRequestLanguage() language: LanguageCode) {
+    return this.featureService.getAllEntities({ language });
   }
 
   @Mutation(() => Feature)
   public async updateFeature(
+    @GetRequestLanguage() language: LanguageCode,
     @Args(InputField.INPUT) updateFeatureInput: UpdateFeatureInput,
   ) {
-    return this.featureService.updateEntity(updateFeatureInput);
+    return this.featureService.updateEntity(updateFeatureInput, { language });
   }
 
   @Mutation(() => Feature)
   public async deleteFeature(
+    @GetRequestLanguage() language: LanguageCode,
     @Args(InputField.ID, getEntityByIdArgOptions) id: string,
   ) {
-    return this.featureService.deleteFeatureById({ id });
+    return this.featureService.deleteFeatureById({ id }, { language });
   }
 }

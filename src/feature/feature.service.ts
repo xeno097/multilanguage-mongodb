@@ -8,6 +8,7 @@ import { UpdateFeatureInput } from './graphql/input-types/update-feature.input';
 import { LanguageCode } from 'src/common/enum/language-code.enum';
 import { CreateFeatureInternalDto } from './dto/create-feature-internal.dto';
 import { createSlug } from 'src/common/functions/create-slug.function';
+import { IRequestOptions } from 'src/common/interfaces/request-options.interface';
 
 @Injectable()
 export class FeatureService {
@@ -18,12 +19,13 @@ export class FeatureService {
 
   public async getEntityById(
     getEntityByIdDto: GetEntityByIdDto,
+    requestOptions: IRequestOptions,
   ): Promise<FeatureDto> {
-    return await this.repository.getOneEntity(getEntityByIdDto);
+    return await this.repository.getOneEntity(getEntityByIdDto, requestOptions);
   }
 
-  public async getAllEntities() {
-    return await this.repository.getAllEntities();
+  public async getAllEntities(requestOptions: IRequestOptions) {
+    return await this.repository.getAllEntities(requestOptions);
   }
 
   public async createEntity(createFeatureInput: CreateFeatureInput) {
@@ -40,11 +42,20 @@ export class FeatureService {
     return await this.repository.createEntity(createFeatureDto);
   }
 
-  public async updateEntity(updateFeatureInput: UpdateFeatureInput) {
-    return await this.repository.updateEntity(updateFeatureInput);
+  public async updateEntity(
+    updateFeatureInput: UpdateFeatureInput,
+    requestOptions: IRequestOptions,
+  ) {
+    return await this.repository.updateEntity(
+      updateFeatureInput,
+      requestOptions,
+    );
   }
 
-  public async deleteFeatureById(getEntityByIdDto: GetEntityByIdDto) {
-    return await this.repository.deleteEntity(getEntityByIdDto);
+  public async deleteFeatureById(
+    getEntityByIdDto: GetEntityByIdDto,
+    requestOptions: IRequestOptions,
+  ) {
+    return await this.repository.deleteEntity(getEntityByIdDto, requestOptions);
   }
 }
