@@ -5,6 +5,7 @@ import { InputField } from 'src/common/graphql/enums/input-field.enum';
 import { getEntityByIdArgOptions } from 'src/common/graphql/options/get-entity-by-id.options';
 import { FeatureService } from './feature.service';
 import { CreateFeatureInput } from './graphql/input-types/create-feature.input';
+import { RemoveFeatureTranslations } from './graphql/input-types/remove-translation.input';
 import { UpdateFeatureInput } from './graphql/input-types/update-feature.input';
 import { Feature } from './graphql/object-types/feature.object-type';
 
@@ -47,5 +48,16 @@ export class FeatureResolver {
     @Args(InputField.ID, getEntityByIdArgOptions) id: string,
   ) {
     return this.featureService.deleteFeatureById({ id }, { language });
+  }
+
+  // EXTRA
+  @Mutation(() => Feature)
+  public async removeFeatureTranslations(
+    @GetRequestLanguage() language: LanguageCode,
+    @Args(InputField.INPUT) updateFeatureInput: RemoveFeatureTranslations,
+  ) {
+    return this.featureService.removeFeatureTranlsation(updateFeatureInput, {
+      language,
+    });
   }
 }

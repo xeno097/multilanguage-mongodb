@@ -9,6 +9,7 @@ import { LanguageCode } from 'src/common/enum/language-code.enum';
 import { CreateFeatureInternalDto } from './dto/create-feature-internal.dto';
 import { createSlug } from 'src/common/functions/create-slug.function';
 import { IRequestOptions } from 'src/common/interfaces/request-options.interface';
+import { RemoveFeatureTranslations } from './graphql/input-types/remove-translation.input';
 
 @Injectable()
 export class FeatureService {
@@ -57,5 +58,33 @@ export class FeatureService {
     requestOptions: IRequestOptions,
   ) {
     return await this.repository.deleteEntity(getEntityByIdDto, requestOptions);
+  }
+
+  // EXTRA
+  public async removeFeatureTranlsation(
+    removeFeatureTranslations: RemoveFeatureTranslations,
+    requestOptions: IRequestOptions,
+  ) {
+    const { where, data } = removeFeatureTranslations;
+    const { name_translations } = data;
+
+    const updatePayload = {};
+    name_translations.forEach((curr) => {
+      updatePayload[curr] = null;
+    });
+
+    const updateFeatureInput: UpdateFeatureInput = {
+      where,
+      data: {
+        name_translations: updatePayload,
+      },
+    };
+
+    const res = await this.repository.updateEntity(
+      updateFeatureInput,
+      requestOptions,
+    );
+
+    return res;
   }
 }
