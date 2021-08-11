@@ -22,11 +22,19 @@
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^1.0.1",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/graphql": "^8.0.2",
+    "@nestjs/mongoose": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "apollo-server-express": "^2.25.2",
+    "graphql": "^15.5.1",
+    "graphql-type-json": "^0.3.2",
+    "mongoose": "^5.13.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "slugify": "^1.6.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
