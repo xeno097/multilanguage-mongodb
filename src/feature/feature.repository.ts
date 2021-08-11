@@ -75,11 +75,26 @@ export class FeatureRepository implements IRepository<FeatureDto> {
   ): Promise<FeatureDto> {
     try {
       const { data, where } = updateEntityDto;
+      const { language } = requestOptions;
       const entity = await this._getOneEntity(where, requestOptions);
 
-      entity.set(data);
+      // Add the new translations to the old ones
+      const name_translations = {
+        ...entity.name_translations,
+        ...data.name_translations,
+      };
+
+      const updatePayload = {
+        ...data,
+        name_translations,
+      };
+
+      entity.set(updatePayload);
 
       await entity.save();
+
+      // Set the field to the correct traslation if exists
+      entity.name = name_translations[language] ?? entity.name;
 
       return entity;
     } catch (error) {

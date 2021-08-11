@@ -7,11 +7,12 @@ export const getFeatureProjection = (
     id: 1,
     name: {
       $cond: {
-        if: `$name_translations.${language}`,
-        then: '$name_translations.es',
-        else: '$name_translations.en',
+        if: { $ifNull: [`$name_translations.${language}`, false] },
+        then: `$name_translations.${language}`,
+        else: '$name',
       },
     },
+    name_translations: 1,
     slug: 1,
   };
 };
