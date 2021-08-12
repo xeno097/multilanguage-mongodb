@@ -43,7 +43,7 @@ export class ModelResolver {
   }
 
   @Mutation(() => Model)
-  removeModel(
+  deleteModel(
     @GetRequestLanguage() language: LanguageCode,
     @Args(InputField.ID, getEntityByIdArgOptions)
     id: string,
