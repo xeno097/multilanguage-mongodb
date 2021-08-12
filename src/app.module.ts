@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { FeatureModule } from './feature/feature.module';
 import { Request, Response } from 'express';
 import { ModelModule } from './model/model.module';
+import { FuelTypeModule } from './fuel-type/fuel-type.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ModelModule } from './model/model.module';
     }),
     FeatureModule,
     ModelModule,
+    FuelTypeModule,
   ],
   controllers: [],
   providers: [],
