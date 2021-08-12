@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FeatureModule } from './feature/feature.module';
 import { Request, Response } from 'express';
+import { ModelModule } from './model/model.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { Request, Response } from 'express';
       },
     }),
     FeatureModule,
+    ModelModule,
   ],
   controllers: [],
   providers: [],
