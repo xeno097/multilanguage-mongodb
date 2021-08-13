@@ -2,14 +2,19 @@ import { LanguageCode } from 'src/common/enum/language-code.enum';
 
 export const getFuelTypeEntityProjection = (
   language: LanguageCode = LanguageCode.EN,
+  prefix = '',
 ) => {
+  const fieldPrefix = prefix !== '' ? `${prefix}.` : '';
+
   return {
     id: 1,
     name: {
       $cond: {
-        if: { $ifNull: [`$name_translations.${language}`, false] },
-        then: `$name_translations.${language}`,
-        else: '$name',
+        if: {
+          $ifNull: [`$${fieldPrefix}name_translations.${language}`, false],
+        },
+        then: `$${fieldPrefix}name_translations.${language}`,
+        else: `$${fieldPrefix}name`,
       },
     },
     name_translations: 1,
