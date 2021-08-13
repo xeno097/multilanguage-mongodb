@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { CarService } from './car.service';
-import { Car } from './graphql/object-types/car.entity';
+import { Car } from './graphql/object-types/car.object-type';
 import { CreateCarInput } from './graphql/input-types/create-car.input';
 import { UpdateCarInput } from './graphql/input-types/update-car.input';
 
