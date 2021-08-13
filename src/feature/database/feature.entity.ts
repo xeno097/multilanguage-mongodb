@@ -18,7 +18,7 @@ export class FeatureEntity extends Document implements IFeatureDto {
 
   @Prop({
     type: {},
-    required: true,
+    default: {},
   })
   name_translations: Record<string, string>;
 
