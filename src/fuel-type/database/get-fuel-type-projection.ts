@@ -7,7 +7,7 @@ export const getFuelTypeEntityProjection = (
   const fieldPrefix = prefix !== '' ? `${prefix}.` : '';
 
   return {
-    id: 1,
+    id: `$${fieldPrefix}id`,
     name: {
       $cond: {
         if: {
@@ -17,7 +17,7 @@ export const getFuelTypeEntityProjection = (
         else: `$${fieldPrefix}name`,
       },
     },
-    name_translations: 1,
-    slug: 1,
+    name_translations: `$${fieldPrefix}name_translations`,
+    slug: `$${fieldPrefix}slug`,
   };
 };
