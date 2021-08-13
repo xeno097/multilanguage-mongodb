@@ -8,7 +8,6 @@ import { createSlug } from 'src/common/functions/create-slug.function';
 import { LanguageCode } from 'src/common/enum/language-code.enum';
 import { CreateFuelTypeDto } from './dto/create-fuel-type.dto';
 import { UpdateFuelTypeInput } from './graphql/input-types/update-fuel-type.input';
-import { UpdateFuelTypeDto } from './dto/update-fuel-type.dto';
 import { CreateFuelTypeInput } from './graphql/input-types/create-fuel-type.input';
 import { RemoveFuelTypeTranslationInput } from './graphql/input-types/remove-fuel-type-translation.input';
 
@@ -74,7 +73,7 @@ export class FuelTypeService {
       updatePayload[curr] = null;
     });
 
-    const updateFuelTypeDto: UpdateFuelTypeDto = {
+    const updateFuelTypeDto: UpdateFuelTypeInput = {
       where,
       data: {
         name_translations: updatePayload,
