@@ -10,4 +10,7 @@ export class CreateCarInput {
 
   @Field(() => [ID])
   features: string[];
+
+  @Field(() => ID)
+  fuelType: string;
 }
