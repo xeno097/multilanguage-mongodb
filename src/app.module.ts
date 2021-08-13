@@ -6,6 +6,7 @@ import { FeatureModule } from './feature/feature.module';
 import { Request, Response } from 'express';
 import { ModelModule } from './model/model.module';
 import { FuelTypeModule } from './fuel-type/fuel-type.module';
+import { CarModule } from './car/car.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { FuelTypeModule } from './fuel-type/fuel-type.module';
     FeatureModule,
     ModelModule,
     FuelTypeModule,
+    CarModule,
   ],
   controllers: [],
   providers: [],
