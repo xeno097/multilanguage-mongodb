@@ -14,24 +14,8 @@ export class CarRepository implements IRepository<CarDto> {
     @InjectModel(CarEntity.name)
     private readonly carEntityModel: Model<CarEntity>,
   ) {}
+
   private async _getOneEntity(
-    getOneEntityDto: Record<string, any>,
-    requestOptions: IRequestOptions,
-  ): Promise<CarEntity> {
-    try {
-      const res = await this.carEntityModel.findOne(getOneEntityDto);
-
-      if (!res) {
-        throw new Error('Not Found');
-      }
-
-      return res;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async _getOneEntityByAggregationPipeline(
     getOneEntityDto: Record<string, any>,
     requestOptions: IRequestOptions = { language: LanguageCode.EN },
   ) {
@@ -60,10 +44,7 @@ export class CarRepository implements IRepository<CarDto> {
     getOneEntityDto: Record<string, any>,
     requestOptions: IRequestOptions,
   ): Promise<CarDto> {
-    const res = await this._getOneEntityByAggregationPipeline(
-      getOneEntityDto,
-      requestOptions,
-    );
+    const res = await this._getOneEntity(getOneEntityDto, requestOptions);
 
     return res;
   }
@@ -88,9 +69,7 @@ export class CarRepository implements IRepository<CarDto> {
 
       const getOneEntityDto = { id: entity.id };
 
-      const car = await this._getOneEntityByAggregationPipeline(
-        getOneEntityDto,
-      );
+      const car = await this._getOneEntity(getOneEntityDto);
 
       return car;
     } catch (error) {
@@ -104,16 +83,10 @@ export class CarRepository implements IRepository<CarDto> {
   ): Promise<CarDto> {
     try {
       const { data, where } = updateEntityDto;
-      const entity = await this._getOneEntity(where, requestOptions);
 
-      entity.set(data);
+      await this.carEntityModel.findOneAndUpdate(where, data);
 
-      await entity.save();
-
-      const car = await this._getOneEntityByAggregationPipeline(
-        where,
-        requestOptions,
-      );
+      const car = await this._getOneEntity(where, requestOptions);
 
       return car;
     } catch (error) {
@@ -126,14 +99,9 @@ export class CarRepository implements IRepository<CarDto> {
     requestOptions: IRequestOptions,
   ): Promise<CarDto> {
     try {
-      const car = await this._getOneEntityByAggregationPipeline(
-        getOneEntityDto,
-        requestOptions,
-      );
+      const car = await this._getOneEntity(getOneEntityDto, requestOptions);
 
-      const entity = await this._getOneEntity(getOneEntityDto, requestOptions);
-
-      await entity.remove();
+      await this.carEntityModel.findOneAndRemove(getOneEntityDto);
 
       return car;
     } catch (error) {
