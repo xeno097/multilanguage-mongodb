@@ -1,13 +1,13 @@
 import { Field, ID, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class CreateCarInput {
+export class UpdateCarPayloadInput {
   @Field()
-  title: string;
+  title?: string;
 
   @Field(() => ID)
-  carModel: string;
+  carModel?: string;
 
   @Field(() => [ID])
-  features: string[];
+  features?: string[];
 }

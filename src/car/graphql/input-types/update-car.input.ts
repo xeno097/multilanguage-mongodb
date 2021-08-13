@@ -1,8 +1,13 @@
-import { CreateCarInput } from './create-car.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
+import { IUpdateEntityDto } from 'src/common/interfaces/update-entity-dto.interface';
+import { GetEntityByIdInput } from 'src/common/graphql/input-types/get-entity-by-id.input-type';
+import { UpdateCarPayloadInput } from './update-car-payload.input';
 
 @InputType()
-export class UpdateCarInput extends PartialType(CreateCarInput) {
-  @Field(() => Int)
-  id: number;
+export class UpdateCarInput implements IUpdateEntityDto {
+  @Field()
+  where: GetEntityByIdInput;
+
+  @Field()
+  data: UpdateCarPayloadInput;
 }
