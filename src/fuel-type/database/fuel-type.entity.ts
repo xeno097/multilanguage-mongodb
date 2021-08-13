@@ -2,7 +2,11 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { IFuelTypeDto } from '../interfaces/fuel-type-dto.interface';
 
-@Schema()
+export const fuelTypeCollectionName = 'fueltypes';
+
+@Schema({
+  collection: fuelTypeCollectionName,
+})
 export class FuelTypeEntity extends Document implements IFuelTypeDto {
   @Prop()
   id: string;
