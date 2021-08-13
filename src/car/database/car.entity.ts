@@ -1,10 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types, Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { FeatureDto } from 'src/feature/dto/feature.dto';
+import { FuelTypeDto } from 'src/fuel-type/dto/fuel-type.dto';
 import { ModelDto } from 'src/model/dto/model.dto.input';
 import { ICarDto } from '../interfaces/car-dto.interface';
 
-@Schema()
+export const carCollectionName = 'cars';
+
+@Schema({
+  collection: carCollectionName,
+})
 export class CarEntity extends Document implements ICarDto {
   @Prop()
   id: string;
@@ -21,13 +26,19 @@ export class CarEntity extends Document implements ICarDto {
   slug: string;
 
   @Prop({
-    type: Types.ObjectId,
+    type: MongooseSchema.Types.ObjectId,
     required: true,
   })
   carModel: ModelDto;
 
   @Prop({
-    type: [Types.ObjectId],
+    type: MongooseSchema.Types.ObjectId,
+    required: true,
+  })
+  fuelType: FuelTypeDto;
+
+  @Prop({
+    type: [MongooseSchema.Types.ObjectId],
     default: [],
   })
   features: FeatureDto[];
