@@ -29,12 +29,13 @@ export class CarService {
   }
 
   public async createCar(createCarInput: CreateCarInput): Promise<CarDto> {
-    const { carModel, features, title } = createCarInput;
+    const { carModel, features, title, fuelType } = createCarInput;
 
     const createCarDto: CreateCarDto = {
       carModel,
       features,
       title,
+      fuelType,
       slug: createSlug([title], true),
     };
 
