@@ -1,26 +1,57 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { GetEntityByIdDto } from 'src/common/dto/get-entity-by-id.dto';
+import { createSlug } from 'src/common/functions/create-slug.function';
+import { IRepository } from 'src/common/interfaces/repository.interface';
+import { IRequestOptions } from 'src/common/interfaces/request-options.interface';
+import { CarRepository } from './car.repository';
+import { CarDto } from './dto/car.dto';
+import { CreateCarDto } from './dto/create-car.dto';
 import { CreateCarInput } from './graphql/input-types/create-car.input';
 import { UpdateCarInput } from './graphql/input-types/update-car.input';
+import { ICarDto } from './interfaces/car-dto.interface';
 
 @Injectable()
 export class CarService {
-  create(createCarInput: CreateCarInput) {
-    return 'This action adds a new car';
+  constructor(
+    @Inject(CarRepository.name)
+    private readonly repository: IRepository<ICarDto>,
+  ) {}
+
+  public async findCarById(
+    getEntityByIdDto: GetEntityByIdDto,
+    requestOptions: IRequestOptions,
+  ): Promise<CarDto> {
+    return await this.repository.getOneEntity(getEntityByIdDto, requestOptions);
   }
 
-  findAll() {
-    return `This action returns all car`;
+  public async getAllCars(requestOptions: IRequestOptions): Promise<CarDto[]> {
+    return await this.repository.getAllEntities(requestOptions);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} car`;
+  public async createCar(createCarInput: CreateCarInput): Promise<CarDto> {
+    const { carModel, features, title } = createCarInput;
+
+    const createCarDto: CreateCarDto = {
+      carModel,
+      features,
+      title,
+      slug: createSlug([title], true),
+    };
+
+    return await this.repository.createEntity(createCarDto);
   }
 
-  update(id: number, updateCarInput: UpdateCarInput) {
-    return `This action updates a #${id} car`;
+  public async updateCar(
+    updateCarInput: UpdateCarInput,
+    requestOptions: IRequestOptions,
+  ): Promise<CarDto> {
+    return await this.repository.updateEntity(updateCarInput, requestOptions);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} car`;
+  public async deleteCarById(
+    getEntityByIdDto: GetEntityByIdDto,
+    requestOptions: IRequestOptions,
+  ): Promise<CarDto> {
+    return await this.repository.deleteEntity(getEntityByIdDto, requestOptions);
   }
 }
