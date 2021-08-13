@@ -2,8 +2,8 @@
 
 <p align="center">
 <a href="https://nodejs.org/en/"><img src="https://img.shields.io/badge/node--js-v12.x.x-green" alt="node-js" /></a>
-<a href="https://www.npmjs.com/package/express"><img src="https://img.shields.io/badge/nestjs-v8.x.x-red" alt="express" /></a>
-<a href="https://www.npmjs.com/package/express"><img src="https://img.shields.io/badge/apollo--server--express-v2.x.x-blueviolet" alt="apollo-server-express" /></a>
+<a href="https://nestjs.com/"><img src="https://img.shields.io/badge/nestjs-v8.x.x-red" alt="nestjs" /></a>
+<a href="https://www.npmjs.com/package/apollo-server-express"><img src="https://img.shields.io/badge/apollo--server--express-v2.x.x-blueviolet" alt="apollo-server-express" /></a>
 <a href="https://www.npmjs.com/package/typescript"><img src="https://img.shields.io/badge/typescript-v4.x.x-blue" alt="typescript" /></a>
 <a href="https://www.npmjs.com/package/mongoose"><img src="https://img.shields.io/badge/mongoose-v5.13.5-green" alt="mongoose" /></a>
 <a href="https://choosealicense.com/licenses/mit/" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" ></a>
