@@ -62,8 +62,6 @@ export class FuelTypeRepository implements IRepository<FuelTypeDto> {
 
       await entity.save();
 
-      entity.name = entity.name_translations.en;
-
       return entity;
     } catch (error) {
       throw error;

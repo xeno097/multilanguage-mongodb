@@ -4,10 +4,9 @@ import { createSlug } from 'src/common/functions/create-slug.function';
 import { IRepository } from 'src/common/interfaces/repository.interface';
 import { IRequestOptions } from 'src/common/interfaces/request-options.interface';
 import { CreateModelDto } from './dto/create-model.dto';
-
 import { ModelDto } from './dto/model.dto.input';
-import { UpdateModelDto } from './dto/update-model.input';
 import { CreateModelInput } from './graphql/input-types/create-model.input';
+import { UpdateModelInput } from './graphql/input-types/update-model.input';
 import { ModelRepository } from './model.repository';
 
 @Injectable()
@@ -40,10 +39,10 @@ export class ModelService {
   }
 
   public async updateModel(
-    updateModelDto: UpdateModelDto,
+    updateModelInput: UpdateModelInput,
     requestOptions: IRequestOptions,
   ) {
-    return await this.repository.updateEntity(updateModelDto, requestOptions);
+    return await this.repository.updateEntity(updateModelInput, requestOptions);
   }
 
   public async deleteModelById(

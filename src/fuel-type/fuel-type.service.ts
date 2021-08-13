@@ -5,10 +5,8 @@ import { FuelTypeDto } from './dto/fuel-type.dto';
 import { GetEntityByIdDto } from 'src/common/dto/get-entity-by-id.dto';
 import { IRequestOptions } from 'src/common/interfaces/request-options.interface';
 import { createSlug } from 'src/common/functions/create-slug.function';
-import { LanguageCode } from 'src/common/enum/language-code.enum';
 import { CreateFuelTypeDto } from './dto/create-fuel-type.dto';
 import { UpdateFuelTypeInput } from './graphql/input-types/update-fuel-type.input';
-import { UpdateFuelTypeDto } from './dto/update-fuel-type.dto';
 import { CreateFuelTypeInput } from './graphql/input-types/create-fuel-type.input';
 import { RemoveFuelTypeTranslationInput } from './graphql/input-types/remove-fuel-type-translation.input';
 
@@ -36,9 +34,6 @@ export class FuelTypeService {
     const createFuelTypeDto: CreateFuelTypeDto = {
       name,
       slug: createSlug([name]),
-      name_translations: {
-        [LanguageCode.EN]: name,
-      },
     };
 
     return await this.repository.createEntity(createFuelTypeDto);
@@ -74,7 +69,7 @@ export class FuelTypeService {
       updatePayload[curr] = null;
     });
 
-    const updateFuelTypeDto: UpdateFuelTypeDto = {
+    const updateFuelTypeDto: UpdateFuelTypeInput = {
       where,
       data: {
         name_translations: updatePayload,

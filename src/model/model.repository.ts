@@ -10,14 +10,14 @@ import { ModelDto } from './dto/model.dto.input';
 export class ModelRepository implements IRepository<ModelDto> {
   constructor(
     @InjectModel(ModelEntity.name)
-    private readonly modelModel: Model<ModelEntity>,
+    private readonly modelEntityModel: Model<ModelEntity>,
   ) {}
   private async _getOneEntity(
     getOneEntityDto: Record<string, any>,
     requestOptions: IRequestOptions,
   ): Promise<ModelEntity> {
     try {
-      const res = await this.modelModel.findOne(getOneEntityDto);
+      const res = await this.modelEntityModel.findOne(getOneEntityDto);
 
       if (!res) {
         throw new Error('Not Found');
@@ -39,7 +39,7 @@ export class ModelRepository implements IRepository<ModelDto> {
   public async getAllEntities(
     requestOptions: IRequestOptions,
   ): Promise<ModelDto[]> {
-    const query = this.modelModel.find();
+    const query = this.modelEntityModel.find();
 
     return await query.exec();
   }
@@ -48,7 +48,7 @@ export class ModelRepository implements IRepository<ModelDto> {
     createEntityDto: CreateModelDto,
   ): Promise<ModelDto> {
     try {
-      const entity = new this.modelModel(createEntityDto);
+      const entity = new this.modelEntityModel(createEntityDto);
 
       await entity.save();
 

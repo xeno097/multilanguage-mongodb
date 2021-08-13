@@ -18,7 +18,7 @@ export class FuelTypeEntity extends Document implements IFuelTypeDto {
 
   @Prop({
     type: {},
-    required: true,
+    default: {},
   })
   name_translations: Record<string, string>;
 

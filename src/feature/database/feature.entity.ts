@@ -7,7 +7,7 @@ export const featureCollectionName = 'features';
 @Schema({
   collection: featureCollectionName,
 })
-export class Feature extends Document implements IFeatureDto {
+export class FeatureEntity extends Document implements IFeatureDto {
   @Prop()
   id: string;
 
@@ -18,7 +18,7 @@ export class Feature extends Document implements IFeatureDto {
 
   @Prop({
     type: {},
-    required: true,
+    default: {},
   })
   name_translations: Record<string, string>;
 
@@ -29,7 +29,7 @@ export class Feature extends Document implements IFeatureDto {
   slug: string;
 }
 
-export const FeatureSchema = SchemaFactory.createForClass(Feature);
+export const FeatureSchema = SchemaFactory.createForClass(FeatureEntity);
 
 FeatureSchema.pre('save', function (next) {
   if (this.isNew) {
