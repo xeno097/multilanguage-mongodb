@@ -2,7 +2,11 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { IFeatureDto } from '../interfaces/feature-dto.interface';
 
-@Schema()
+export const featureCollectionName = 'features';
+
+@Schema({
+  collection: featureCollectionName,
+})
 export class Feature extends Document implements IFeatureDto {
   @Prop()
   id: string;

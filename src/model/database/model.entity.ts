@@ -2,7 +2,11 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { IModelDto } from '../interfaces/model-dto.interface';
 
-@Schema()
+export const modelCollectionName = 'models';
+
+@Schema({
+  collection: modelCollectionName,
+})
 export class ModelEntity extends Document implements IModelDto {
   @Prop()
   id: string;
