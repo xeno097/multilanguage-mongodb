@@ -15,7 +15,7 @@ This project aims to implement a multilanguage proposal to allow backend data in
 
 ## Solution Description
 
-In this branch the solution has been implemented using the populate feature offered by the mongoose library in order to fetch the linked entities in the desired language.
+In this branch the solution has been implemented using the [populate](https://mongoosejs.com/docs/populate.html) feature offered by the [mongoose](https://mongoosejs.com/) library in order to fetch the linked entities in the desired language.
 
 ## How to run the project
 
