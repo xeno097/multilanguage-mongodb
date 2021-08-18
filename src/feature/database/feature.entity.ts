@@ -1,6 +1,8 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Model, Query } from 'mongoose';
+import { LanguageCode } from 'src/common/enum/language-code.enum';
 import { IFeatureDto } from '../interfaces/feature-dto.interface';
+import { getFeatureProjection } from './feature-projection';
 
 export const featureCollectionName = 'features';
 
@@ -29,6 +31,13 @@ export class FeatureEntity extends Document implements IFeatureDto {
   slug: string;
 }
 
+export interface FeatureEntityModel extends Model<FeatureEntity> {
+  buildProjection(
+    query: Query<any, any>,
+    language?: LanguageCode,
+  ): Query<any, any>;
+}
+
 export const FeatureSchema = SchemaFactory.createForClass(FeatureEntity);
 
 FeatureSchema.pre('save', function (next) {
@@ -38,3 +47,12 @@ FeatureSchema.pre('save', function (next) {
 
   next();
 });
+
+FeatureSchema.statics.buildProjection = (
+  query: Query<any, any, any, any>,
+  language: LanguageCode = LanguageCode.EN,
+) => {
+  query.projection(getFeatureProjection(language));
+
+  return query;
+};

@@ -1,9 +1,11 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { IRepository } from 'src/common/interfaces/repository.interface';
 import { IRequestOptions } from 'src/common/interfaces/request-options.interface';
 import { IUpdateEntityDto } from 'src/common/interfaces/update-entity-dto.interface';
-import { FuelTypeEntity } from './database/fuel-type.entity';
+import {
+  FuelTypeEntity,
+  FuelTypeEntityModel,
+} from './database/fuel-type.entity';
 import { getFuelTypeEntityProjection } from './database/get-fuel-type-projection';
 import { CreateFuelTypeDto } from './dto/create-fuel-type.dto';
 import { FuelTypeDto } from './dto/fuel-type.dto';
@@ -11,7 +13,7 @@ import { FuelTypeDto } from './dto/fuel-type.dto';
 export class FuelTypeRepository implements IRepository<FuelTypeDto> {
   constructor(
     @InjectModel(FuelTypeEntity.name)
-    private readonly fuelTypeEntityModel: Model<FuelTypeEntity>,
+    private readonly fuelTypeEntityModel: FuelTypeEntityModel,
   ) {}
 
   private async _getOneEntity(
@@ -21,9 +23,11 @@ export class FuelTypeRepository implements IRepository<FuelTypeDto> {
     try {
       const { language } = requestOptions;
 
-      const res = await this.fuelTypeEntityModel.findOne(
-        getOneEntityDto,
-        getFuelTypeEntityProjection(language),
+      const query = this.fuelTypeEntityModel.findOne(getOneEntityDto);
+
+      const res = await this.fuelTypeEntityModel.buildProjection(
+        query,
+        language,
       );
 
       if (!res) {

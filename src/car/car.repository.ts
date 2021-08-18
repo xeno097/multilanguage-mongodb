@@ -1,50 +1,27 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { LanguageCode } from 'src/common/enum/language-code.enum';
 import { IRepository } from 'src/common/interfaces/repository.interface';
 import { IRequestOptions } from 'src/common/interfaces/request-options.interface';
 import { IUpdateEntityDto } from 'src/common/interfaces/update-entity-dto.interface';
-import { CarEntity } from './database/car.entity';
-import { getCarAggregationPipeline } from './database/get-car-projection';
+import { CarEntity, CarEntityModel } from './database/car.entity';
 import { CarDto } from './dto/car.dto';
 import { CreateCarDto } from './dto/create-car.dto';
 
 export class CarRepository implements IRepository<CarDto> {
   constructor(
     @InjectModel(CarEntity.name)
-    private readonly carEntityModel: Model<CarEntity>,
+    private readonly carEntityModel: CarEntityModel,
   ) {}
   private async _getOneEntity(
     getOneEntityDto: Record<string, any>,
-    requestOptions: IRequestOptions,
+    requestOptions: IRequestOptions = { language: LanguageCode.EN },
   ): Promise<CarEntity> {
     try {
-      const res = await this.carEntityModel.findOne(getOneEntityDto);
+      const query = this.carEntityModel.findOne(getOneEntityDto);
 
-      if (!res) {
-        throw new Error('Not Found');
-      }
-
-      return res;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  private async _getOneEntityByAggregationPipeline(
-    getOneEntityDto: Record<string, any>,
-    requestOptions: IRequestOptions = { language: LanguageCode.EN },
-  ) {
-    try {
-      const { language } = requestOptions;
-      const pipeline = [
-        {
-          $match: getOneEntityDto,
-        },
-        ...getCarAggregationPipeline(language),
-      ];
-
-      const [res] = await this.carEntityModel.aggregate(pipeline);
+      const res = await this.carEntityModel
+        .buildProjection(query, requestOptions.language)
+        .exec();
 
       if (!res) {
         throw new Error('Not Found');
@@ -60,10 +37,7 @@ export class CarRepository implements IRepository<CarDto> {
     getOneEntityDto: Record<string, any>,
     requestOptions: IRequestOptions,
   ): Promise<CarDto> {
-    const res = await this._getOneEntityByAggregationPipeline(
-      getOneEntityDto,
-      requestOptions,
-    );
+    const res = await this._getOneEntity(getOneEntityDto, requestOptions);
 
     return res;
   }
@@ -71,11 +45,11 @@ export class CarRepository implements IRepository<CarDto> {
   public async getAllEntities(
     requestOptions: IRequestOptions,
   ): Promise<CarDto[]> {
-    const { language } = requestOptions;
+    const query = this.carEntityModel.find();
 
-    const pipeline = getCarAggregationPipeline(language);
-
-    const res = await this.carEntityModel.aggregate(pipeline);
+    const res = await this.carEntityModel
+      .buildProjection(query, requestOptions.language)
+      .exec();
 
     return res;
   }
@@ -88,9 +62,7 @@ export class CarRepository implements IRepository<CarDto> {
 
       const getOneEntityDto = { id: entity.id };
 
-      const car = await this._getOneEntityByAggregationPipeline(
-        getOneEntityDto,
-      );
+      const car = await this._getOneEntity(getOneEntityDto);
 
       return car;
     } catch (error) {
@@ -110,12 +82,7 @@ export class CarRepository implements IRepository<CarDto> {
 
       await entity.save();
 
-      const car = await this._getOneEntityByAggregationPipeline(
-        where,
-        requestOptions,
-      );
-
-      return car;
+      return entity;
     } catch (error) {
       throw error;
     }
@@ -126,16 +93,11 @@ export class CarRepository implements IRepository<CarDto> {
     requestOptions: IRequestOptions,
   ): Promise<CarDto> {
     try {
-      const car = await this._getOneEntityByAggregationPipeline(
-        getOneEntityDto,
-        requestOptions,
-      );
-
       const entity = await this._getOneEntity(getOneEntityDto, requestOptions);
 
       await entity.remove();
 
-      return car;
+      return entity;
     } catch (error) {
       throw error;
     }

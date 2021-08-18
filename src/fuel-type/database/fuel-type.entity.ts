@@ -1,6 +1,8 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Model, Query } from 'mongoose';
+import { LanguageCode } from 'src/common/enum/language-code.enum';
 import { IFuelTypeDto } from '../interfaces/fuel-type-dto.interface';
+import { getFuelTypeEntityProjection } from './get-fuel-type-projection';
 
 export const fuelTypeCollectionName = 'fueltypes';
 
@@ -29,6 +31,13 @@ export class FuelTypeEntity extends Document implements IFuelTypeDto {
   slug: string;
 }
 
+export interface FuelTypeEntityModel extends Model<FuelTypeEntity> {
+  buildProjection(
+    query: Query<any, any>,
+    language?: LanguageCode,
+  ): Query<any, any>;
+}
+
 export const FuelTypeEntitySchema =
   SchemaFactory.createForClass(FuelTypeEntity);
 
@@ -39,3 +48,12 @@ FuelTypeEntitySchema.pre('save', function (next) {
 
   next();
 });
+
+FuelTypeEntitySchema.statics.buildProjection = (
+  query: Query<any, any, any, any>,
+  language: LanguageCode = LanguageCode.EN,
+) => {
+  query.projection(getFuelTypeEntityProjection(language));
+
+  return query;
+};
