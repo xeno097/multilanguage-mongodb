@@ -13,6 +13,11 @@
 
 This project implements a solution to allow backend data internationalization. To achieve this goal, it uses MongoDB projections and aggregation framework to process the data and send it to the client in the desired language.
 
+## Solution Description
+
+- The branch [S1](https://github.com/xeno097/multilanguage-proposal/tree/S1) implements the solution using the [$lookup](https://docs.mongodb.com/v4.4/reference/operator/aggregation/lookup/) stage of the MongoDB [aggregation framework](https://docs.mongodb.com/manual/aggregation/)
+- The branch [S2](https://github.com/xeno097/multilanguage-proposal/tree/S2) implements the solution using mongoose [population](https://mongoosejs.com/docs/populate.html)
+
 ## How to run the project
 
 With npm installed on your machine, install project dependencies running the following command:
