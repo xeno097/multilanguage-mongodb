@@ -13,6 +13,10 @@
 
 This project aims to implement a multilanguage proposal to allow backend data internationalization. To achieve this goal, it uses MongoDB projections and aggregation framework to process the data and send it to the client in the desired language.
 
+## Solution Description
+
+In this branch the solution has been implemented using the populate feature offered by the mongoose library in order to fetch the linked entities in the desired language.
+
 ## How to run the project
 
 With npm installed on your machine, install project dependencies running the following command:
