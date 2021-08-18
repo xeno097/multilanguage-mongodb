@@ -11,7 +11,7 @@
 
 ## Description
 
-This implement a solution to allow backend data internationalization. To achieve this goal, it uses MongoDB projections and aggregation framework to process the data and send it to the client in the desired language.
+This project implements a solution to allow backend data internationalization. To achieve this goal, it uses MongoDB projections and aggregation framework to process the data and send it to the client in the desired language.
 
 ## How to run the project
 
